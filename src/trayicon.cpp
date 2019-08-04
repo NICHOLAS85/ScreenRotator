@@ -91,13 +91,17 @@ void TrayIcon::orientationUpdated(Orientation orientation)
 void TrayIcon::activated(QSystemTrayIcon::ActivationReason reason)
 {
   this->setAutoRotating(!d->autoRotating);
-  //this->emitRotationIfHas();
+  if (d->autoRotating) {
+    this->emitRotationIfHas();
+  }
 }
 
 void TrayIcon::messageClicked()
 {
   this->setAutoRotating(!d->autoRotating);
-  //this->emitRotationIfHas();
+  if (d->autoRotating) {
+    this->emitRotationIfHas();
+  }
 }
 
 void TrayIcon::emitRotationIfHas()
