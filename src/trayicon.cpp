@@ -109,6 +109,6 @@ void TrayIcon::emitRotationIfHas()
   if (d->hasLastOrientation) {
     emit this->emitRotation(d->lastOrientation);
   } else {
-    d->tray.showMessage(APP_NAME, tr("No orientaion change detected, try rotate the devise again"), APP_ICON, 5000);
+    d->tray.showMessage(APP_NAME, tr("No orientaion change detected, try rotating the device again"), APP_ICON, 5000);
   }
 }
