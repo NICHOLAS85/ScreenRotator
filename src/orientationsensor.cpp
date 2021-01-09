@@ -20,6 +20,7 @@
 #include <QOrientationSensor>
 #include <QHash>
 #include <QDebug>
+#include <QTimer>
 
 class OrientationSensor::Private {
 public:
@@ -35,18 +36,19 @@ OrientationSensor::OrientationSensor(QObject* parent) : QObject{parent}, d{new P
     { QOrientationReading::LeftUp, LeftUp },
   };
   connect(&d->sensor, &QOrientationSensor::readingChanged, this, [this]{
-    auto reading = d->sensor.reading();
-    if(! reading)
-      return;
-    if(d->to_orientation.keys().contains(reading->orientation())) {
-      emit this->reading(d->to_orientation[reading->orientation()]);
-    }
+    QTimer::singleShot(2000, this, [this]{
+        auto reading = d->sensor.reading();
+        if(! reading)
+          return;
+        if(d->to_orientation.keys().contains(reading->orientation())) {
+          emit this->reading(d->to_orientation[reading->orientation()]);
+        }
+    });
   });
   connect(&d->sensor, &QOrientationSensor::sensorError, this, [this](int error){
     qDebug() << "Sensor error: " << error;
   });
   auto started = d->sensor.start();
-  
 }
 
 OrientationSensor::~OrientationSensor()
